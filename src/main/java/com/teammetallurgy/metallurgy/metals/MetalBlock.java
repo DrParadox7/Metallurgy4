@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -230,16 +231,19 @@ public class MetalBlock extends Block
         this.blockIcon = register.registerIcon(this.getTextureName());
 
         // Sub-Blocks Textures
-        for (Map.Entry<Integer, String> texture : this.textures.entrySet())
-        {
+        for (Map.Entry<Integer, String> texture : this.textures.entrySet()) {
             int meta = texture.getKey();
             String textureName = texture.getValue();
 
+            if (Loader.isModLoaded("pokepatch"))
+            {
+                if (textureName == "Metallurgy:nether/sanguinite_ore")
+                    textureName = "Metallurgy:nether/sanguinite_ore_alt";
+            }
             IIcon icon = register.registerIcon(textureName);
 
             this.icons.put(meta, icon);
         }
-
     }
 
     public void setSubBlockParticles(int meta, int type, int red, int green, int blue)
